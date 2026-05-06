@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Spēlētāji{% endblock %}
+
+{% block content %}
+<div class="container page-top">
+
+  <div class="page-header">
+    <h1 class="page-title">⚽ Spēlētāji</h1>
+    <a href="{{ url_for('player_create') }}" class="btn btn-primary">+ Pievienot</a>
+  </div>
