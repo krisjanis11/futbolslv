@@ -1,0 +1,37 @@
+:root {
+  --bg:        #080810;
+  --surface:   #0e0e1a;
+  --card:      #12121f;
+  --card2:     #18182c;
+  --border:    #1e1e38;
+  --border2:   #2a2a48;
+  --pl:        #00ff87;
+  --la:        #f5c518;
+  --bl:        #ff6b35;
+  --purple:    #b87dff;
+  --text:      #f0f0fa;
+  --muted:     #7070a0;
+  --muted2:    #4a4a70;
+  --danger:    #ff4455;
+  --success:   #00e676;
+  --font-head: 'Bebas Neue', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+  --radius:    12px;
+  --radius-lg: 20px;
+  --shadow:    0 4px 24px rgba(0,0,0,.5);
+}
+
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
