@@ -284,3 +284,116 @@ def league_show(league_id):
     if not league:
         return redirect(url_for("leagues"))
     return render_template("league_show.html", league=league, teams=teams, top_scorers=top_scorers)
+
+# 6.CREATE — forma jauna spēlētāja pievienošanai
+@app.route("/admin/speletaji/jauns", methods=["GET", "POST"])
+def player_create():
+    conn = get_db()
+    if request.method == "POST":
+        name        = request.form["name"].strip()
+        nationality = request.form["nationality"].strip()
+        position    = request.form["position"].strip()
+        age         = request.form.get("age", 0)
+        height_cm   = request.form.get("height_cm", 0)
+        market_value= request.form.get("market_value", "").strip()
+        biography   = request.form.get("biography", "").strip()
+        team_id     = request.form["team_id"]
+
+        if not name or not nationality or not position or not team_id:
+            flash("Lūdzu aizpildi visus obligātos laukus!", "error")
+        else:
+            conn.execute("""
+                INSERT INTO players (name, nationality, position, age, height_cm, market_value, biography, team_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """, (name, nationality, position, age, height_cm, market_value, biography, team_id))
+            conn.commit()
+
+            # Add empty stats row for new player
+            new_id = conn.execute("SELECT last_insert_rowid()").fetchone()[0]
+            conn.execute("INSERT INTO player_stats (player_id) VALUES (?)", (new_id,))
+            conn.commit()
+            conn.close()
+            flash(f'Spēlētājs "{name}" veiksmīgi pievienots!', "success")
+            return redirect(url_for("players"))
+
+    teams = conn.execute("""
+        SELECT teams.id, teams.name, leagues.short_code
+        FROM teams JOIN leagues ON teams.league_id = leagues.id ORDER BY leagues.id, teams.name
+    """).fetchall()
+    conn.close()
+    return render_template("player_form.html", player=None, teams=teams, action="Pievienot")
+
+
+# 7. UPDATE — rediģēšanas forma
+@app.route("/admin/speletaji/<int:player_id>/redaktet", methods=["GET", "POST"])
+def player_edit(player_id):
+    conn = get_db()
+    player = conn.execute("SELECT * FROM players WHERE id=?", (player_id,)).fetchone()
+    if not player:
+        conn.close()
+        flash("Spēlētājs nav atrasts.", "error")
+        return redirect(url_for("players"))
+
+    if request.method == "POST":
+        name        = request.form["name"].strip()
+        nationality = request.form["nationality"].strip()
+        position    = request.form["position"].strip()
+        age         = request.form.get("age", 0)
+        height_cm   = request.form.get("height_cm", 0)
+        market_value= request.form.get("market_value", "").strip()
+        biography   = request.form.get("biography", "").strip()
+        team_id     = request.form["team_id"]
+
+        if not name or not nationality or not position or not team_id:
+            flash("Lūdzu aizpildi visus obligātos laukus!", "error")
+        else:
+            conn.execute("""
+                UPDATE players SET name=?, nationality=?, position=?, age=?,
+                height_cm=?, market_value=?, biography=?, team_id=? WHERE id=?
+            """, (name, nationality, position, age, height_cm, market_value, biography, team_id, player_id))
+            conn.commit()
+            conn.close()
+            flash(f'Spēlētājs "{name}" veiksmīgi atjaunināts!', "success")
+            return redirect(url_for("player_show", player_id=player_id))
+
+    teams = conn.execute("""
+        SELECT teams.id, teams.name, leagues.short_code
+        FROM teams JOIN leagues ON teams.league_id = leagues.id ORDER BY leagues.id, teams.name
+    """).fetchall()
+    conn.close()
+    return render_template("player_form.html", player=player, teams=teams, action="Saglabāt")
+
+
+# 8. DELETE — dzēšana
+@app.route("/admin/speletaji/<int:player_id>/dzest", methods=["POST"])
+def player_delete(player_id):
+    conn = get_db()
+    player = conn.execute("SELECT name FROM players WHERE id=?", (player_id,)).fetchone()
+    if player:
+        conn.execute("DELETE FROM player_stats WHERE player_id=?", (player_id,))
+        conn.execute("DELETE FROM players WHERE id=?", (player_id,))
+        conn.commit()
+        flash(f'Spēlētājs "{player["name"]}" dzēsts.', "success")
+    conn.close()
+    return redirect(url_for("players"))
+
+
+# 9. Admin panelis
+@app.route("/admin")
+def admin():
+    conn = get_db()
+    players_list = conn.execute("""
+        SELECT players.id, players.name, players.position, players.nationality,
+               teams.name AS team, leagues.short_code AS league
+        FROM players
+        JOIN teams   ON players.team_id  = teams.id
+        JOIN leagues ON teams.league_id  = leagues.id
+        ORDER BY players.name
+    """).fetchall()
+    conn.close()
+    return render_template("admin.html", players=players_list)
+
+
+if __name__ == "__main__":
+    init_db()
+    app.run(debug=True)
