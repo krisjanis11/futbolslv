@@ -52,7 +52,6 @@ button, input, select, textarea {
   font-size: inherit;
 }
 
-/* ── LAYOUT ───────────────────────────────────────────────────── */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -61,7 +60,6 @@ button, input, select, textarea {
 .page-top { padding-top: 40px; padding-bottom: 60px; position: relative; z-index: 1; }
 .main-content { flex: 1; }
 
-/* ── NAVBAR ───────────────────────────────────────────────────── */
 .navbar {
   position: sticky;
   top: 0;
@@ -107,7 +105,6 @@ button, input, select, textarea {
 .nav-admin { color: var(--purple) !important; }
 .nav-admin:hover, .nav-admin.active { background: rgba(184,125,255,.12) !important; }
 
-/* burger — mobile */
 .burger {
   display: none;
   flex-direction: column;
@@ -126,7 +123,6 @@ button, input, select, textarea {
   transition: all .2s;
 }
 
-/* ── FLASH MESSAGES ───────────────────────────────────────────── */
 .flash-wrap {
   position: relative;
   z-index: 99;
@@ -149,7 +145,6 @@ button, input, select, textarea {
 .flash button  { background: none; border: none; cursor: pointer; color: inherit; font-size: 16px; opacity: .7; }
 .flash button:hover { opacity: 1; }
 
-/* ── BUTTONS ──────────────────────────────────────────────────── */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -175,7 +170,6 @@ button, input, select, textarea {
 .btn-sm       { padding: 5px 12px; font-size: 12px; }
 .btn.disabled { opacity: .4; cursor: default; pointer-events: none; }
 
-/* ── HERO ─────────────────────────────────────────────────────── */
 .hero {
   position: relative;
   min-height: 520px;
@@ -248,7 +242,6 @@ button, input, select, textarea {
 }
 @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
 
-/* ── STATS STRIP ──────────────────────────────────────────────── */
 .stats-strip {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
@@ -284,7 +277,6 @@ button, input, select, textarea {
 }
 .stat-divider { width: 1px; height: 48px; background: var(--border); }
 
-/* ── SECTION ──────────────────────────────────────────────────── */
 .section { padding: 60px 0; position: relative; z-index: 1; }
 .section-dark { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .section-head {
@@ -303,7 +295,6 @@ button, input, select, textarea {
 .see-all { font-size: 13px; color: var(--pl); font-weight: 600; }
 .see-all:hover { text-decoration: underline; }
 
-/* ── PODIUM ───────────────────────────────────────────────────── */
 .podium {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -329,7 +320,6 @@ button, input, select, textarea {
 .podium-meta { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
 .podium-assists { font-size: 12px; color: var(--muted); }
 
-/* ── LEAGUE CARDS (homepage) ──────────────────────────────────── */
 .league-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
 .league-card {
   display: flex;
@@ -357,7 +347,6 @@ button, input, select, textarea {
 .lc-country { font-size: 13px; color: var(--muted); }
 .lc-arrow { position: absolute; top: 24px; right: 24px; font-size: 18px; color: var(--muted2); }
 
-/* ── LEAGUE BADGES ────────────────────────────────────────────── */
 .league-badge {
   font-size: 9px;
   font-weight: 800;
@@ -372,7 +361,7 @@ button, input, select, textarea {
 .league-BL { background: rgba(255,107,53,.15); color: var(--bl); }
 .badge-lg { font-size: 11px; padding: 4px 10px; }
 
-/* ── POSITION TAGS ────────────────────────────────────────────── */
+
 .pos-tag {
   font-size: 10px;
   font-weight: 700;
@@ -386,7 +375,6 @@ button, input, select, textarea {
 .pos-Ai { background: rgba(0,150,255,.15); color: #4db8ff; }
 .pos-Vā { background: rgba(255,200,0,.15); color: #ffc800; }
 
-/* ── PAGE HEADER ──────────────────────────────────────────────── */
 .page-header {
   display: flex;
   align-items: center;
@@ -402,7 +390,6 @@ button, input, select, textarea {
 }
 .page-sub { color: var(--muted); font-size: 14px; margin-top: 4px; }
 
-/* ── BACK LINK ────────────────────────────────────────────────── */
 .back-link {
   display: inline-block;
   color: var(--muted);
@@ -412,7 +399,6 @@ button, input, select, textarea {
 }
 .back-link:hover { color: var(--text); }
 
-/* ── FILTERS ──────────────────────────────────────────────────── */
 .filters {
   display: flex;
   gap: 10px;
@@ -437,7 +423,6 @@ button, input, select, textarea {
 
 .results-count { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
 
-/* ── DATA TABLE ───────────────────────────────────────────────── */
 .table-wrap {
   background: var(--card);
   border: 1px solid var(--border);
@@ -503,7 +488,6 @@ button, input, select, textarea {
 .delete-btn:hover { background: rgba(255,68,85,.15); border-color: var(--danger); }
 .view-btn:hover   { background: rgba(0,255,135,.1); border-color: var(--pl); }
 
-/* ── EMPTY STATE ──────────────────────────────────────────────── */
 .empty-state {
   text-align: center;
   padding: 60px 20px;
@@ -512,7 +496,6 @@ button, input, select, textarea {
 .empty-icon { font-size: 48px; margin-bottom: 12px; }
 .empty-state p { margin-bottom: 16px; }
 
-/* ── PLAYER PROFILE ───────────────────────────────────────────── */
 .profile-hero {
   display: flex;
   gap: 28px;
@@ -571,7 +554,6 @@ button, input, select, textarea {
 .bio-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; color: var(--muted); }
 .profile-bio p { font-size: 14px; color: var(--muted); line-height: 1.7; }
 
-/* ── FORM CARD ────────────────────────────────────────────────── */
 .form-card {
   max-width: 720px;
   background: var(--card);
@@ -598,7 +580,6 @@ button, input, select, textarea {
 .form-textarea { min-height: 100px; resize: vertical; }
 .form-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; flex-wrap: wrap; }
 
-/* ── LEAGUES PAGE ─────────────────────────────────────────────── */
 .leagues-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
 .league-detail-card {
   display: block;
@@ -630,7 +611,6 @@ button, input, select, textarea {
 .ldc-stat-val { font-family: var(--font-head); font-size: 28px; }
 .ldc-stat-lbl { font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
 
-/* ── LEAGUE DETAIL ────────────────────────────────────────────── */
 .league-hero {
   display: flex;
   align-items: center;
@@ -691,7 +671,6 @@ button, input, select, textarea {
 .sn-assists { font-size: 12px; color: var(--purple); }
 .sn-apps    { font-size: 11px; color: var(--muted2); }
 
-/* ── ADMIN ────────────────────────────────────────────────────── */
 .admin-info { margin-bottom: 24px; }
 .info-card {
   display: flex;
@@ -723,7 +702,6 @@ button, input, select, textarea {
 .crud-d .crud-letter { color: var(--danger); }
 .crud-item small { font-size: 11px; color: var(--muted); }
 
-/* ── FOOTER ───────────────────────────────────────────────────── */
 .footer {
   background: var(--surface);
   border-top: 1px solid var(--border);
@@ -736,13 +714,12 @@ button, input, select, textarea {
 .footer-sub  { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
 .footer-copy { font-size: 12px; color: var(--muted2); }
 
-/* ── ANIMATIONS ───────────────────────────────────────────────── */
+/* ── ANIMATIONS */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── RESPONSIVE ───────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .league-cards   { grid-template-columns: 1fr; }
   .leagues-grid   { grid-template-columns: 1fr; }
