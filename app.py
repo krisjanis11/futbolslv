@@ -294,7 +294,9 @@ def league_show(league_id):
     return render_template("league_show.html", league=league, teams=teams, top_scorers=top_scorers)
 
 
-# 6.CREATE — forma jauna spēlētāja pievienošanai
+# ── CRUD — Admin (players) ───────────────────────────────────────
+
+# CREATE — forma jauna spēlētāja pievienošanai
 @app.route("/admin/speletaji/jauns", methods=["GET", "POST"])
 def player_create():
     conn = get_db()
@@ -333,7 +335,7 @@ def player_create():
     return render_template("player_form.html", player=None, teams=teams, action="Pievienot")
 
 
-# 7. UPDATE — rediģēšanas forma
+# UPDATE — rediģēšanas forma
 @app.route("/admin/speletaji/<int:player_id>/redaktet", methods=["GET", "POST"])
 def player_edit(player_id):
     conn = get_db()
@@ -373,7 +375,7 @@ def player_edit(player_id):
     return render_template("player_form.html", player=player, teams=teams, action="Saglabāt")
 
 
-# 8. DELETE — dzēšana
+# DELETE — dzēšana
 @app.route("/admin/speletaji/<int:player_id>/dzest", methods=["POST"])
 def player_delete(player_id):
     conn = get_db()
@@ -387,7 +389,7 @@ def player_delete(player_id):
     return redirect(url_for("players"))
 
 
-# 9. Admin panelis
+# 6. Admin panelis
 @app.route("/admin")
 def admin():
     conn = get_db()
