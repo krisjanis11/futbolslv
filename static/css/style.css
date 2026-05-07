@@ -762,3 +762,4 @@ button, input, select, textarea {
   .profile-stats { grid-template-columns: repeat(2,1fr); }
   .hero-btns { flex-direction: column; }
   .btn { justify-content: center; }
+}
