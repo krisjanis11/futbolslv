@@ -8,3 +8,86 @@
     <h1 class="page-title">⚽ Spēlētāji</h1>
     <a href="{{ url_for('player_create') }}" class="btn btn-primary">+ Pievienot</a>
   </div>
+  
+<!-- FILTERS -->
+  <form class="filters" method="GET" action="{{ url_for('players') }}">
+    <div class="filter-group">
+      <input type="text" name="meklet" placeholder="🔍 Meklēt spēlētāju vai komandu..."
+             value="{{ search }}" class="filter-input">
+    </div>
+    <div class="filter-group">
+      <select name="liga" class="filter-select">
+        <option value="">Visas līgas</option>
+        {% for l in leagues %}
+          <option value="{{ l.short_code }}" {% if league_filter == l.short_code %}selected{% endif %}>
+            {{ l.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-outline">Filtrēt</button>
+    {% if search or league_filter %}
+      <a href="{{ url_for('players') }}" class="btn btn-ghost">Notīrīt</a>
+    {% endif %}
+  </form>
+
+  <!-- RESULTS COUNT -->
+  <p class="results-count">
+    Atrasti <strong>{{ players|length }}</strong> spēlētāji
+    {% if search %} — meklēts: "<em>{{ search }}</em>"{% endif %}
+    {% if league_filter %} — liga: <em>{{ league_filter }}</em>{% endif %}
+  </p>
+
+  <!-- PLAYER TABLE -->
+  {% if players %}
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Vārds</th>
+          <th>Pozīcija</th>
+          <th>Komanda</th>
+          <th>Līga</th>
+          <th class="th-center">⚽</th>
+          <th class="th-center">🎯</th>
+          <th class="th-center">Sp.</th>
+          <th>Darbības</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in players %}
+        <tr class="table-row" onclick="window.location='{{ url_for('player_show', player_id=p.id) }}'">
+          <td class="td-rank">{{ loop.index }}</td>
+          <td class="td-name">
+            <div class="player-name">{{ p.name }}</div>
+            <div class="player-nat">{{ p.nationality }}</div>
+          </td>
+          <td><span class="pos-tag pos-{{ p.position[:2] }}">{{ p.position }}</span></td>
+          <td class="td-team">{{ p.team }}</td>
+          <td><span class="league-badge league-{{ p.league }}">{{ p.league }}</span></td>
+          <td class="td-center stat-goals">{{ p.goals or 0 }}</td>
+          <td class="td-center stat-assists">{{ p.assists or 0 }}</td>
+          <td class="td-center">{{ p.appearances or 0 }}</td>
+          <td class="td-actions" onclick="event.stopPropagation()">
+            <a href="{{ url_for('player_edit', player_id=p.id) }}" class="action-btn edit-btn" title="Rediģēt">✏</a>
+            <form method="POST" action="{{ url_for('player_delete', player_id=p.id) }}"
+                  onsubmit="return confirm('Dzēst {{ p.name }}?')" style="display:inline">
+              <button type="submit" class="action-btn delete-btn" title="Dzēst">🗑</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon">🔍</div>
+    <p>Nav atrasts neviens spēlētājs.</p>
+    <a href="{{ url_for('players') }}" class="btn btn-outline">Notīrīt filtrus</a>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

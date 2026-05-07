@@ -2,3 +2,102 @@
 {% block title %}Sākums{% endblock %}
 
 {% block content %}
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">2024 – 2025 Sezona</p>
+    <h1 class="hero-title">Eiropas<br><em>Futbola</em><br>Līgas</h1>
+    <p class="hero-sub">Premier League &nbsp;·&nbsp; La Liga &nbsp;·&nbsp; Bundesliga</p>
+    <div class="hero-btns">
+      <a href="{{ url_for('players') }}" class="btn btn-primary">Spēlētāji</a>
+      <a href="{{ url_for('leagues') }}" class="btn btn-outline">Līgas</a>
+    </div>
+  </div>
+  <div class="hero-deco">
+    <span class="deco-ball">⚽</span>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<section class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-val">{{ total_players }}</div>
+      <div class="stat-lbl">Spēlētāji</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-val">{{ total_teams }}</div>
+      <div class="stat-lbl">Komandas</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-val">3</div>
+      <div class="stat-lbl">Līgas</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-val">{{ total_goals }}</div>
+      <div class="stat-lbl">Vārti</div>
+    </div>
+  </div>
+</section>
+
+<!-- TOP SCORERS -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">🏆 Top Vārtuguvēji</h2>
+      <a href="{{ url_for('players') }}" class="see-all">Visi spēlētāji →</a>
+    </div>
+
+    <div class="podium">
+      {% for p in top3 %}
+        <div class="podium-card podium-{{ loop.index }}">
+          <div class="podium-rank">
+            {% if loop.index == 1 %}🥇{% elif loop.index == 2 %}🥈{% else %}🥉{% endif %}
+          </div>
+          <div class="podium-goals">{{ p.goals }}</div>
+          <div class="podium-goals-lbl">vārti</div>
+          <div class="podium-name">{{ p.name }}</div>
+          <div class="podium-team">{{ p.team }}</div>
+          <div class="podium-meta">
+            <span class="league-badge league-{{ p.league }}">{{ p.league }}</span>
+            <span class="podium-assists">{{ p.assists }} piespēles</span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- LEAGUES PREVIEW -->
+<section class="section section-dark">
+  <div class="container">
+    <h2 class="section-title">🌍 Līgas</h2>
+    <div class="league-cards">
+      <a href="{{ url_for('league_show', league_id=1) }}" class="league-card lc-pl">
+        <div class="lc-code">PL</div>
+        <div class="lc-name">Premier League</div>
+        <div class="lc-country">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Anglija</div>
+        <div class="lc-arrow">→</div>
+      </a>
+      <a href="{{ url_for('league_show', league_id=2) }}" class="league-card lc-la">
+        <div class="lc-code">LL</div>
+        <div class="lc-name">La Liga</div>
+        <div class="lc-country">🇪🇸 Spānija</div>
+        <div class="lc-arrow">→</div>
+      </a>
+      <a href="{{ url_for('league_show', league_id=3) }}" class="league-card lc-bl">
+        <div class="lc-code">BL</div>
+        <div class="lc-name">Bundesliga</div>
+        <div class="lc-country">🇩🇪 Vācija</div>
+        <div class="lc-arrow">→</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

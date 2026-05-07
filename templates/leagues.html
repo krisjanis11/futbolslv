@@ -2,3 +2,39 @@
 {% block title %}Līgas{% endblock %}
 
 {% block content %}
+
+<div class="container page-top">
+
+  <div class="page-header">
+    <h1 class="page-title">🌍 Futbola Līgas</h1>
+    <p class="page-sub">2024-25 sezona · 3 līgas · Eiropa</p>
+  </div>
+
+  <div class="leagues-grid">
+    {% for league in leagues %}
+    <a href="{{ url_for('league_show', league_id=league.id) }}" class="league-detail-card ldc-{{ league.short_code }}">
+      <div class="ldc-header">
+        <div class="ldc-badge">{{ league.short_code }}</div>
+        <div class="ldc-arrow">→</div>
+      </div>
+      <div class="ldc-name">{{ league.name }}</div>
+      <div class="ldc-country">{{ league.country }}</div>
+      {% if league.founded %}
+      <div class="ldc-founded">Dibināta: {{ league.founded }}</div>
+      {% endif %}
+      <div class="ldc-stats">
+        <div class="ldc-stat">
+          <div class="ldc-stat-val">{{ league.team_count }}</div>
+          <div class="ldc-stat-lbl">Komandas</div>
+        </div>
+        <div class="ldc-stat">
+          <div class="ldc-stat-val">{{ league.player_count }}</div>
+          <div class="ldc-stat-lbl">Spēlētāji</div>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

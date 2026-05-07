@@ -3,3 +3,87 @@
 
 {% block content %}
 <div class="container page-top">
+
+ <a href="{{ url_for('players') }}" class="back-link">← Atpakaļ uz spēlētājiem</a>
+
+  <!-- PROFILE HERO -->
+  <div class="profile-hero">
+    <div class="profile-avatar">
+      <div class="avatar-circle">
+        {{ player.name[0] }}{{ player.name.split(' ')[-1][0] if ' ' in player.name else '' }}
+      </div>
+      <span class="league-badge league-{{ player.league_code }} badge-lg">{{ player.league_code }}</span>
+    </div>
+
+    <div class="profile-info">
+      <h1 class="profile-name">{{ player.name }}</h1>
+      <div class="profile-meta">
+        <span class="pos-tag pos-{{ player.position[:2] }}">{{ player.position }}</span>
+        <span class="meta-item">🌍 {{ player.nationality }}</span>
+        {% if player.age %}<span class="meta-item">{{ player.age }} gadi</span>{% endif %}
+        {% if player.height_cm %}<span class="meta-item">{{ player.height_cm }} cm</span>{% endif %}
+        {% if player.market_value %}<span class="meta-item meta-value">{{ player.market_value }}</span>{% endif %}
+      </div>
+      <div class="profile-club">
+        <span class="club-name">{{ player.team }}</span>
+        {% if player.city %}<span class="club-city">· {{ player.city }}</span>{% endif %}
+        {% if player.stadium %}<span class="club-stadium">· 🏟 {{ player.stadium }}</span>{% endif %}
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <a href="{{ url_for('player_edit', player_id=player.id) }}" class="btn btn-outline">✏ Rediģēt</a>
+      <form method="POST" action="{{ url_for('player_delete', player_id=player.id) }}"
+            onsubmit="return confirm('Tiešām dzēst {{ player.name }}?')">
+        <button type="submit" class="btn btn-danger">🗑 Dzēst</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- STATS GRID -->
+  {% if player.appearances %}
+  <div class="profile-stats">
+    <div class="pstat-card">
+      <div class="pstat-val pstat-goals">{{ player.goals or 0 }}</div>
+      <div class="pstat-lbl">⚽ Vārti</div>
+    </div>
+    <div class="pstat-card">
+      <div class="pstat-val pstat-assists">{{ player.assists or 0 }}</div>
+      <div class="pstat-lbl">🎯 Piespēles</div>
+    </div>
+    <div class="pstat-card">
+      <div class="pstat-val">{{ (player.goals or 0) + (player.assists or 0) }}</div>
+      <div class="pstat-lbl">🔥 G+A</div>
+    </div>
+    <div class="pstat-card">
+      <div class="pstat-val">{{ player.appearances or 0 }}</div>
+      <div class="pstat-lbl">📅 Spēles</div>
+    </div>
+    <div class="pstat-card">
+      <div class="pstat-val pstat-yellow">{{ player.yellow_cards or 0 }}</div>
+      <div class="pstat-lbl">🟨 Dz. kartītes</div>
+    </div>
+    {% if player.appearances and player.goals %}
+    <div class="pstat-card">
+      <div class="pstat-val">{{ "%.2f"|format(player.goals / player.appearances) }}</div>
+      <div class="pstat-lbl">⚡ Vārti/Spēle</div>
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <!-- SEASON BADGE -->
+  <div class="season-badge">
+    Sezona: <strong>{{ player.season or '2024-25' }}</strong>
+  </div>
+
+  <!-- BIOGRAPHY -->
+  {% if player.biography %}
+  <div class="profile-bio">
+    <h3 class="bio-title">Par spēlētāju</h3>
+    <p>{{ player.biography }}</p>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

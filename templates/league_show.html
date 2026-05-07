@@ -2,3 +2,66 @@
 {% block title %}{{ league.name }}{% endblock %}
 
 {% block content %}
+<div class="container page-top">
+
+  <a href="{{ url_for('leagues') }}" class="back-link">← Atpakaļ uz līgām</a>
+
+  <!-- LEAGUE HEADER -->
+  <div class="league-hero lh-{{ league.short_code }}">
+    <div class="lh-badge">{{ league.short_code }}</div>
+    <div class="lh-info">
+      <h1 class="lh-name">{{ league.name }}</h1>
+      <p class="lh-country">{{ league.country }}{% if league.founded %} · Dibināta {{ league.founded }}{% endif %}</p>
+    </div>
+  </div>
+
+  <div class="league-body">
+
+    <!-- TEAMS -->
+    <div class="lb-section">
+      <h2 class="lb-title">🏟 Komandas</h2>
+      <div class="teams-grid">
+        {% for team in teams %}
+        <div class="team-chip">
+          <div class="tc-num">{{ loop.index }}</div>
+          <div class="tc-info">
+            <div class="tc-name">{{ team.name }}</div>
+            <div class="tc-city">{{ team.city }}{% if team.stadium %} · {{ team.stadium }}{% endif %}</div>
+          </div>
+          {% if team.founded %}
+          <div class="tc-year">{{ team.founded }}</div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- TOP SCORERS -->
+    {% if top_scorers %}
+    <div class="lb-section">
+      <h2 class="lb-title">⚽ Top Vārtuguvēji</h2>
+      <div class="scorer-list">
+        {% for p in top_scorers %}
+        <div class="scorer-row">
+          <div class="scorer-rank {% if loop.index == 1 %}gold{% elif loop.index == 2 %}silver{% elif loop.index == 3 %}bronze{% endif %}">
+            {{ loop.index }}
+          </div>
+          <div class="scorer-info">
+            <div class="scorer-name">{{ p.name }}</div>
+            <div class="scorer-team">{{ p.team }} · {{ p.nationality }}</div>
+          </div>
+          <div class="scorer-nums">
+            <span class="sn-goals">{{ p.goals }} ⚽</span>
+            <span class="sn-assists">{{ p.assists }} 🎯</span>
+            <span class="sn-apps">{{ p.appearances }} sp.</span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+
+</div>
+{% endblock %}

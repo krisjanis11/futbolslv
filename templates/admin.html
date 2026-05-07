@@ -2,3 +2,87 @@
 {% block title %}Admin panelis{% endblock %}
 
 {% block content %}
+
+<div class="container page-top">
+
+  <div class="page-header">
+    <h1 class="page-title">⚙ Admin Panelis</h1>
+    <a href="{{ url_for('player_create') }}" class="btn btn-primary">+ Jauns spēlētājs</a>
+  </div>
+
+  <div class="admin-info">
+    <div class="info-card">
+      <div class="info-icon">📋</div>
+      <div>
+        <strong>CRUD darbības</strong>
+        <p>Šajā lapā vari pārvaldīt visus spēlētājus — pievienot, skatīt, rediģēt un dzēst.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Vārds</th>
+          <th>Pozīcija</th>
+          <th>Valstpiederība</th>
+          <th>Komanda</th>
+          <th>Līga</th>
+          <th>Darbības</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in players %}
+        <tr>
+          <td class="td-rank">{{ loop.index }}</td>
+          <td class="td-name">
+            <a href="{{ url_for('player_show', player_id=p.id) }}" class="name-link">{{ p.name }}</a>
+          </td>
+          <td><span class="pos-tag pos-{{ p.position[:2] }}">{{ p.position }}</span></td>
+          <td>{{ p.nationality }}</td>
+          <td>{{ p.team }}</td>
+          <td><span class="league-badge league-{{ p.league }}">{{ p.league }}</span></td>
+          <td class="td-actions">
+            <a href="{{ url_for('player_show', player_id=p.id) }}" class="action-btn view-btn" title="Skatīt">👁</a>
+            <a href="{{ url_for('player_edit', player_id=p.id) }}" class="action-btn edit-btn" title="Rediģēt">✏</a>
+            <form method="POST" action="{{ url_for('player_delete', player_id=p.id) }}"
+                  onsubmit="return confirm('Tiešām dzēst {{ p.name }}?')" style="display:inline">
+              <button type="submit" class="action-btn delete-btn" title="Dzēst">🗑</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="crud-legend">
+    <h3>CRUD operāciju kopsavilkums</h3>
+    <div class="crud-grid">
+      <div class="crud-item crud-c">
+        <div class="crud-letter">C</div>
+        <div><strong>Create</strong><br><small>Pievienot jaunu spēlētāju</small></div>
+        <a href="{{ url_for('player_create') }}" class="btn btn-sm">Pievienot</a>
+      </div>
+      <div class="crud-item crud-r">
+        <div class="crud-letter">R</div>
+        <div><strong>Read</strong><br><small>Skatīt spēlētāju sarakstu</small></div>
+        <a href="{{ url_for('players') }}" class="btn btn-sm">Skatīt</a>
+      </div>
+      <div class="crud-item crud-u">
+        <div class="crud-letter">U</div>
+        <div><strong>Update</strong><br><small>Rediģēt spēlētāja datus</small></div>
+        <span class="btn btn-sm disabled">✏ Tabulas rindā</span>
+      </div>
+      <div class="crud-item crud-d">
+        <div class="crud-letter">D</div>
+        <div><strong>Delete</strong><br><small>Dzēst spēlētāju</small></div>
+        <span class="btn btn-sm disabled">🗑 Tabulas rindā</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

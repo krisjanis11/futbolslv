@@ -12,10 +12,13 @@ def get_db():
     conn.row_factory = sqlite3.Row
     return conn
 
+
+# ── Seed database on first run ───────────────────────────────────
 def init_db():
     db_path = Path(__file__).parent / "futbols.db"
     if db_path.exists():
-        return
+        return  # Already initialised
+
     conn = get_db()
     conn.executescript("""
         CREATE TABLE IF NOT EXISTS leagues (
@@ -65,7 +68,7 @@ def init_db():
             ('Premier League', 'Anglija',  'PL', 1992),
             ('La Liga',        'Spānija',  'LL', 1929),
             ('Bundesliga',     'Vācija',   'BL', 1963);
-        
+
         -- Teams — Premier League (20)
         INSERT INTO teams (name, city, stadium, founded, league_id) VALUES
             ('Arsenal',             'London',        'Emirates Stadium',            1886, 1),
@@ -167,7 +170,8 @@ def init_db():
     """)
     conn.commit()
     conn.close()
-    
+
+
 # ── ROUTES ──────────────────────────────────────────────────────
 
 # 1. Sākumlapa
@@ -195,7 +199,8 @@ def index():
                            total_teams=total_teams,
                            total_goals=total_goals,
                            top3=top3)
-    
+
+
 # 2. Spēlētāji — saraksts
 @app.route("/speletaji")
 def players():
@@ -228,6 +233,7 @@ def players():
     return render_template("players.html", players=all_players,
                            leagues=leagues, league_filter=league_filter, search=search)
 
+
 # 3. Spēlētāja profils
 @app.route("/speletaji/<int:player_id>")
 def player_show(player_id):
@@ -249,6 +255,7 @@ def player_show(player_id):
         return redirect(url_for("players"))
     return render_template("player_show.html", player=player)
 
+
 # 4. Līgas
 @app.route("/ligas")
 def leagues():
@@ -264,6 +271,7 @@ def leagues():
     """).fetchall()
     conn.close()
     return render_template("leagues.html", leagues=all_leagues)
+
 
 # 5. Liga — detaļas ar komandām un spēlētājiem
 @app.route("/ligas/<int:league_id>")
@@ -284,6 +292,7 @@ def league_show(league_id):
     if not league:
         return redirect(url_for("leagues"))
     return render_template("league_show.html", league=league, teams=teams, top_scorers=top_scorers)
+
 
 # 6.CREATE — forma jauna spēlētāja pievienošanai
 @app.route("/admin/speletaji/jauns", methods=["GET", "POST"])
